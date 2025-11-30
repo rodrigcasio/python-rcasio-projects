@@ -13,3 +13,7 @@ pip install -r requirements.txt
 
 
 All dependencies are listed in `requirements.txt`
+
+(don't forget to delete `.venv` directory after finishing project, to avoid consuming disk space in local machine)
+
+@rodrigcasio
