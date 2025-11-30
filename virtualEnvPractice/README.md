@@ -1,5 +1,5 @@
 
-## if want to work on a existing project.. Set up correctly the **.venv**, **activate it*, and **install dependencies needed**.
+## if want to work on a existing project.. Set up correctly the **.venv**, **activate it**, and **install dependencies needed**.
 
 **Within the project/ directory:**
 
