@@ -30,12 +30,12 @@ def index_explicit():
     return res
 
 # 2
-# confirming if data exists
+# confirming if data exists, provides the entire data info
 @app.route('/data')
 def get_data():
     try:
         if data and len(data) > 0:
-            return ({ "message": f"Data length {len(data)} found"}, 200)
+            return ({ "People": data }, 200)
         else:
             return ({ "message": "Data is empty" }, 500)
 
@@ -60,6 +60,55 @@ def name_search():
     return ({ "message": "Person not found" }, 404)
 
 
+# same as /data
+@app.route('/count')
+def count():
+    try:
+        return ({ "data count": f"{len(data)}"}, 200)
+     
+    except NameError:
+        return ({ "message": "data is not defined" }, 500)
+
+
+@app.route('/person/<uuid:id>')
+def find_by_uuid(id):
+    for person in data:
+        if str(id) == person["id"]:
+            return person, 200
+   
+    return ({ "message": "Person not found" }, 404)  
+ 
+
+@app.route('/person/<uuid:id>', methods = ['DELETE'])
+def delete_by_uuid(id):
+    for person in data:
+        if str(id) == person["id"]:
+            data.remove(person)
+            return ({ "message": f"Person with ID {id} deleted successfully"}, 200)   
+
+    return ({ "message": "Person not found" }, 404)
+
+
+@app.route('/person', methods = ['POST'])
+def create_new_person():
+   new_person = request.json
+   
+   if not new_person:
+       return ({ "message": "Invalid input parameter" }, 422)
+
+   if new_person in data:
+       return ({ "message": "Person already created, and saved" }, 403)
+   
+    # validate new_person 
+   try:
+       data.append(new_person)
+   except NameError:
+       return ({ "message": "Data not defined" }, 500)
+
+   return ({ "ID": new_person["id"], "messsage": "Person created successfully"}, 200)
+    
+
+
 """
 First approach for '/name_search'
 
@@ -75,4 +124,18 @@ def name_search():
             return ( {"message": "Person not found"}, 404)
     else:
         return ( { "message": "Invalid input parameter"}, 400)
+
+to test create_new_person POST method:
+curl -X POST -i -w '\n' --url http://localhost:5000/person --header 'Content-Type: application/json' --data '{
+        "id": "4e1e61b4-8a27-11ed-a1eb-0242ac120002",
+        "first_name": "John",
+        "last_name": "Horne",
+        "graduation_year": 2001,
+        "address": "1 hill drive",
+        "city": "Atlanta",
+        "zip": "30339",
+        "country": "United States",
+        "avatar": "http://dummyimage.com/139x100.png/cc0000/ffffff"
+}'
+
 """
