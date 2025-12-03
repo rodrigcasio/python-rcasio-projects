@@ -56,3 +56,16 @@ data = [
         "avatar": "http://dummyimage.com/198x100.png/cc0000/ffffff",
     }
 ]
+
+def find_person(first_name):
+    """
+    This function returns the dict that matches the argument given with the first_name key value
+    """
+    for person in data:
+       for value in person.values():
+           if first_name == value:
+               return person
+
+
+
+
