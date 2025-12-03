@@ -1,6 +1,7 @@
 # HOL practice 2
+# " # exercise"
 from flask import Flask, jsonify, make_response, request
-from data_people import data
+from data_people import find_person, data
 app = Flask(__name__)
 
 @app.route('/')
@@ -15,9 +16,7 @@ def greet():
 def greet_2():
     return jsonify( message = "Hello everyone, i turned into a JSON string with 'jsonify()' " )
 
-# 1
-# setting response status:
-# import make_response
+# "1 setup no response status code:"
 @app.route('/no_content')
 def no_content():
     return ({ "message": "No content found" }, 204) # string is not returned with 204
@@ -29,8 +28,7 @@ def index_explicit():
     
     return res
 
-# 2
-# confirming if data exists, provides the entire data info
+# "2 Process input arguments"
 @app.route('/data')
 def get_data():
     try:
@@ -52,15 +50,18 @@ def name_search():
     
     if query.strip() == "" or query.isdigit():
         return ({ "message": "Invalid input parameter" }, 422)
-    
+
+    found_person = find_person(query)
+    if query.lower() == found_person["first_name"].lower():
+        return found_person, 200
+    """
     for person in data:
         if query.lower() == person["first_name"].lower():
             return person, 200
-    
+    """
     return ({ "message": "Person not found" }, 404)
 
-
-# same as /data
+# 'Add Dynamic URLs'
 @app.route('/count')
 def count():
     try:
@@ -88,7 +89,7 @@ def delete_by_uuid(id):
 
     return ({ "message": "Person not found" }, 404)
 
-
+# "4 Parse JSON from Request body"
 @app.route('/person', methods = ['POST'])
 def create_new_person():
    new_person = request.json
@@ -106,24 +107,55 @@ def create_new_person():
        return ({ "message": "Data not defined" }, 500)
 
    return ({ "ID": new_person["id"], "messsage": "Person created successfully"}, 200)
-    
+ 
+# "5 Add Error handlers"   
+
+@app.route("/test500")
+def test500():
+    """
+    Deliberately raise an exception to test the global handler "handle_exception(e)"
+    curl -i localhost:5000/test500
+    Placing purposely this route before the error handlers
+    """
+    raise Exception("Forced exception for testing!")
+
+@app.errorhandler(404)
+def api_not_found(err):
+    """
+    function triggers whenever a client requests a URL that does not lead to any endpoints defined by server:
+    curl -X POST -i -w localhost:5000/notvalid
+    """
+    if err:
+       return ({ "message": "API not found"}, 404)
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    """
+    Catch any unhandled Exception raised anywhere in the app and route
+    to this handler
+    """
+    return ({ "message": str(e) }, 500)
+
 
 
 """
-First approach for '/name_search'
+First approach for '/name_search' making use data directly:
 
 @app.route('/name_search')
 def name_search():
-    first_name = request.args['q']
+    query = request.args.get("q")
     
-    if first_name:
-        person = find_person(first_name)
-        if person["first_name"] == first_name:
-            return (jsonify(person), 200)
-        else:
-            return ( {"message": "Person not found"}, 404)
-    else:
-        return ( { "message": "Invalid input parameter"}, 400)
+    if query is None:
+        return ({ "message": "Query parameter 'q' is missing. Please try again" }, 400)
+    
+    if query.strip() == "" or query.isdigit():
+        return ({ "message": "Invalid input parameter" }, 422)
+
+    for person in data:
+        if query.lower() == person["first_name"].lower():
+            return person, 200
+
+    return ({ "message": "Person not found" }, 404)
 
 to test create_new_person POST method:
 curl -X POST -i -w '\n' --url http://localhost:5000/person --header 'Content-Type: application/json' --data '{
@@ -137,5 +169,4 @@ curl -X POST -i -w '\n' --url http://localhost:5000/person --header 'Content-Typ
         "country": "United States",
         "avatar": "http://dummyimage.com/139x100.png/cc0000/ffffff"
 }'
-
 """
