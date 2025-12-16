@@ -97,9 +97,9 @@ def populate_course_instructor_relationships():
     course_python = Course.objects.get(name__contains='Python')
 
     # Add instructors to courses
-    course_cloud_app.instructor.add(instructor_yan)
-    course_cloud_app.instructor.add(instructor_joy)
-    course_python.instructor.add(instructor_peter)
+    course_cloud_app.instructors.add(instructor_yan)
+    course_cloud_app.instructors.add(instructor_joy)
+    course_python.instructors.add(instructor_peter)
     
     print("Course-instructor relationships saved... ")
 
