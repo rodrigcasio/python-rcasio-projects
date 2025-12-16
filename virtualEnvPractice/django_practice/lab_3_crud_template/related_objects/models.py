@@ -47,9 +47,8 @@ class Learner(User):
 class Course(models.Model):
     name = models.CharField(null = False, max_length = 100, default = 'online course')
     description = models.CharField(max_length = 500)
-    
     instructors = models.ManyToManyField(Instructor) # relationship with instructor
-    learners = models.ManyToManyField(Learner, through = 'Enrrollment') 
+    learners = models.ManyToManyField(Learner, through = 'Enrollment') 
 
     def __str__(self):
         return f"Name: {self.name}, Description: {self.description}."

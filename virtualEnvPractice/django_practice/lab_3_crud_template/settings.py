@@ -1,5 +1,6 @@
 # PostgreSQL
 SECRET_KEY = 'A_TEMPORARY_SECRET_KEY_FOR_THIS_PROJECT'
+DEFAULT_AUTO_FIELD = 'django.db.models/BigAutoField'
 
 INSTALLED_APPS = (
     'related_objects',
