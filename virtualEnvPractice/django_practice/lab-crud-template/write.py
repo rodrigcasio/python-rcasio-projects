@@ -1,20 +1,15 @@
 # Django specific settings
 import inspect
 import os
-from functools import _Descriptor, total_ordering
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'settings')
-# Ensure settingsare read
-from django.core.wsgi import get_wsgi_application
 from django.db import connection
 
+# Ensures settings are read
+from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-from datetime import date
-
 from crud.models import *
-
-# start code here
+from datetime import date
 
 def write_instructors():
     # Create User and add instructor
