@@ -47,20 +47,21 @@ print(f" 4 & 5. Find all full time instructors with First name starts with 'Y' a
 
 """
 OUTPUT:
-
 ((.venv) ) rodrig@rcasio-Archon lab-crud-template]$ python read_instructor.py
-1. Find a single instructor with first name 'Yan' = First name: Yan, Last name: Luo, Is full time: True,                 Total Learners: 30050
+
+1. Find a single instructor with first name 'Yan' = First name: Yan, Last name: Luo, Is full time: True, Total Learners: 30050
 
 
 2. Try to find a non-existing instructor with first name 'Andy'
 Instructor 'Andy' does not exist..
 
 
-3. Find all part time instructors         
-<QuerySet [<Instructor: First name: Joy,                 Last name: Li,                 Is full time: False,                 Total Learners: 10040>]>.
+3. Find all part time instructors       
+    <QuerySet [<Instructor: First name: Joy, Last name: Li, Is full time: False, Total Learners: 10040>]>.
 
 
- 4 & 5. Find all full time instructors with First name starts with 'Y' and learners count greater than 30000         <QuerySet [<Instructor: First name: Yan,                 Last name: Luo,                 Is full time: True,                 Total Learners: 30050>]>.
-((.venv) ) rodrig@rcasio-Archon lab-crud-template]$
+ 4 & 5. Find all full time instructors with First name starts with 'Y' and learners count greater than 30000         
+    <QuerySet [<Instructor: First name: Yan, Last name: Luo, Is full time: True, Total Learners: 30050>]>.
+
 """
 
