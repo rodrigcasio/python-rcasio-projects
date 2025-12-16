@@ -72,7 +72,7 @@ class Enrollment(models.Model):
 
     learner = models.ForeignKey(Learner, on_delete = models.CASCADE)
     course = models.ForeignKey(Course, on_delete = models.CASCADE)
-    data_enrolled = models.DateField(default = now)
+    date_enrolled = models.DateField(default = now)
     mode = models.CharField(max_length = 5, choices = COURS_MODES, default = AUDIT)
 
 
