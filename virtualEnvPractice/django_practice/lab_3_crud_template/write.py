@@ -118,7 +118,7 @@ def populate_course_enrollment_relationships():
     learner_rodrig = Learner.objects.get(first_name='Rodrig')
 
     # Add enrollments
-    james_cloud = Enrrollment.objects.create(learner=learner_james, date_enrolled=date(2020, 8, 1),
+    james_cloud = Enrollment.objects.create(learner=learner_james, date_enrolled=date(2020, 8, 1),
                                             course=course_cloud_app, mode='audit')
     james_cloud.save()
     mary_cloud = Enrollment.objects.create(learner=learner_mary, date_enrolled=date(2020, 8, 2),
@@ -142,7 +142,7 @@ def populate_course_enrollment_relationships():
 # -------- DELETE ALL DATA -------
 def clean_data():
     # deletes all data to start from fresh
-    Enrrollment.objects.all().delete()
+    Enrollment.objects.all().delete()
     User.objects.all().delete()
     Learner.objects.all().delete()
     Instructor.objects.all().delete()

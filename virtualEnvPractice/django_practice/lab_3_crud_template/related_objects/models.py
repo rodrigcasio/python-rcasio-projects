@@ -61,7 +61,7 @@ class Lesson(models.Model):
     content = models.TextField()
 
 
-class Enrrollment(models.Model):
+class Enrollment(models.Model):
     AUDIT = 'audit'
     HONOR = 'honor'
 
