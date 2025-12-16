@@ -55,8 +55,8 @@ class Course(models.Model):
     name = models.CharField(null = False, max_length = 100, default = 'online course')
     description = models.CharField(max_length = 500)
     
-    instructor = models.ManyToMany(Instructor) # relationship with instructor
-    learner = models.ManyToMany(Learner, through = 'Enrrollment') 
+    instructor = models.ManyToManyField(Instructor) # relationship with instructor
+    learner = models.ManyToManyField(Learner, through = 'Enrrollment') 
 
     def __str__(self):
         return f"Name: {self.name}, Description: {self.description}."
@@ -78,7 +78,7 @@ class Enrrollment(models.Model):
     ]
 
     learner = models.ForeignKey(Learner, on_delete = models.CASCADE)
-    course = models.ForeginKey(Course, on_delete = models.CASCADE)
+    course = models.ForeignKey(Course, on_delete = models.CASCADE)
 
     data_enrolled = models.DateField(default = now)
     mode = models.CharField(max_length = 5, choices = COURS_MODES, default = AUDIT)
