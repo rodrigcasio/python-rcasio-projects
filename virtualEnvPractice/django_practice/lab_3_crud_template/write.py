@@ -8,7 +8,7 @@ from django.db import connection
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-from crud.models import *
+from related_objects.models import *
 from datetime import date
 
 def write_instructors():
@@ -86,27 +86,6 @@ def write_lessons():
 
     print("Lesson objects all saved...")
 
-# to conveniently clean up database tables:
-def clean_data():
-    Enrrollment.objects.all().delete()
-    User.objects.all().delete()
-    Learner.objects.all().delete()
-    Instructor.objects.all().delete()
-    Course.objects.all().delete()
-    Lesson.objects.all().delete()
-
-
-def populate_courses():
-    # Add Courses
-    course_cloud_app = Course(name="Cloud Application Development with Database",
-                              description="Develop and deploy application on cloud")
-    course_cloud_app.save()
-    course_python = Course(name="Introduction to Python",
-                           description="Learn core concepts of Python and obtain hands-on "
-                                       "experience via a capstone project")
-    course_python.save()
-    print("Course objects saved... ")
-
 def populate_course_instructor_relationships():
     # Get related instructors
     instructor_yan = Instructor.objects.get(first_name='Yan')
@@ -118,12 +97,11 @@ def populate_course_instructor_relationships():
     course_python = Course.objects.get(name__contains='Python')
 
     # Add instructors to courses
-    course_cloud_app.instructors.add(instructor_yan)
-    course_cloud_app.instructors.add(instructor_joy)
-    course_python.instructors.add(instructor_peter)
+    course_cloud_app.instructor.add(instructor_yan)
+    course_cloud_app.instructor.add(instructor_joy)
+    course_python.instructor.add(instructor_peter)
     
     print("Course-instructor relationships saved... ")
-
 
 def populate_course_enrollment_relationships():
 
@@ -140,7 +118,7 @@ def populate_course_enrollment_relationships():
     learner_rodrig = Learner.objects.get(first_name='Rodrig')
 
     # Add enrollments
-    james_cloud = Enrollment.objects.create(learner=learner_james, date_enrolled=date(2020, 8, 1),
+    james_cloud = Enrrollment.objects.create(learner=learner_james, date_enrolled=date(2020, 8, 1),
                                             course=course_cloud_app, mode='audit')
     james_cloud.save()
     mary_cloud = Enrollment.objects.create(learner=learner_mary, date_enrolled=date(2020, 8, 2),
@@ -161,16 +139,27 @@ def populate_course_enrollment_relationships():
 
     print("Course-learner relationships saved... ")
 
+# -------- DELETE ALL DATA -------
+def clean_data():
+    # deletes all data to start from fresh
+    Enrrollment.objects.all().delete()
+    User.objects.all().delete()
+    Learner.objects.all().delete()
+    Instructor.objects.all().delete()
+    Course.objects.all().delete()
+    Lesson.objects.all().delete()
 
+# --------------------------------
+
+
+# --- CALLING FUNCTIONS 
 # cleans any existing data first
 clean_data()
-
-# pupulate
+# write data
 write_courses()
 write_instructors()
 write_lessons()
 write_learners()
-
 # Populate relationships
 populate_course_instructor_relationships()
 populate_course_enrollment_relationships()
