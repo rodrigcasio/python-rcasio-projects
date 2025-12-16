@@ -12,7 +12,7 @@ from crud.models import *
 from datetime import date
 
 # find students with last name "Smith"
-smith_learner = Learner.objects.get(last_name='Smith')
+smith_learner = Learner.objects.filter(last_name='Smith')
 print(f"1. Find learner with last name 'Smith': {smith_learner}")
 print('\n')
 
@@ -22,5 +22,5 @@ print(f"2. Find top two yongest learners: {learners}")
 
 """
 OUTPUT:
-
+"""
 
