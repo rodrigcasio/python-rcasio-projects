@@ -16,10 +16,7 @@ class Instructor(User): # inherit from User
     total_learners = models.IntegerField()
 
     def __str__(self):
-        return f"First name: {self.first_name}, \
-                Last name: {self.last_name}, \
-                Is full time: {str(self.full_time)}, \
-                Total Learners: {str(self.total_learners)}"
+        return f"First name: {self.first_name}, Last name: {self.last_name}, Is full time: {str(self.full_time)}, Total Learners: {str(self.total_learners)}"
 
 class Learner(User):
     STUDENT = 'student'
@@ -44,11 +41,7 @@ class Learner(User):
     social_link = models.URLField(max_length = 200)
     
     def __str__(self):
-        return f"First name: {self.first_name}, \
-                 Last name: {self.last_name}, \
-                 Date of Birth: {self.dob}, \
-                 Occupation: {self.occupation}, \
-                 Social Link: {self.social_link}. "
+        return f"First name: {self.first_name}, Last name: {self.last_name}, Date of Birth: {self.dob}, Occupation: {self.occupation}, Social Link: {self.social_link}."
 
 
 class Course(models.Model):
