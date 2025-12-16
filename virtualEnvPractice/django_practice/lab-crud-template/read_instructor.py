@@ -19,7 +19,7 @@ print('\n')
 # 2. Find non-existing instructor with first name 'Andy'
 try:
     instructor_andy = Instructor.objects.get(first_name='Andy')  
-except Instructor.DoesNotExit:
+except Instructor.DoesNotExist:
     print(f"2. Try to find a non-existing instructor with first name 'Andy'")
     print(f"Instructor 'Andy' does not exist..")
     
