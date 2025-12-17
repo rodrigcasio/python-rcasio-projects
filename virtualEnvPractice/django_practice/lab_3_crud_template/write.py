@@ -133,17 +133,19 @@ def populate_course_enrollment_relationships():
 
     print("Course-learner relationships saved... ")
 
-# -------- DELETE ALL DATA -------
+# -------- DELETE ALL DATA  Best practice example-------
 def clean_data():
-    # Delete relationships/children first
+    # 1. Delete the "Links" (Middle-man tables)
     Enrollment.objects.all().delete()
+    
+    # 2. Delete the "Dependents" (Tables that need a course to exist)
     Lesson.objects.all().delete()
 
-    # Delete the main objects
+    # 3. Delete the "Main Entities"
     Course.objects.all().delete()
-
-    # Deleting User automatically deletes Learner and Instructor 
-    # because of the inheritance (One-to-One link)
+    
+    # 4. Delete the "Top Level"
+    # (Deleting User automatically deletes Learners and Instructors)
     User.objects.all().delete()
 # --------------------------------
 
