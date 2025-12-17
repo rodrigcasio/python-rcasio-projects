@@ -12,15 +12,9 @@ from related_objects.models import *
 from datetime import date
 
 def write_instructors():
-    # Create User and add instructor
-    user_john = User(first_name='John', last_name='Doe', dob=date(1962, 7, 16))
-    user_john.save()
-    instructor_john = Instructor(full_time=True, total_learners=30050)
-    
-    # Updating the user reference of instructor_john to be user_john
-    instructor_john.user = user_john
+    # create the instructor directly Django will handle creating the undelying User
+    instructor_john = Instructor(first_name='John', last_name='Doe', dob=date(1962, 7, 16), full_time=True, total_learners=30050)
     instructor_john.save()
-    
     #django will automatically assing values 'first_name', 'last_name' and 'dob' to their parent user objects
     
     instructor_yan = Instructor(first_name='Yan', last_name='Luo', dob=date(1962, 7, 13), full_time=True, total_learners=30050)
@@ -127,9 +121,9 @@ def populate_course_enrollment_relationships():
     david_cloud = Enrollment.objects.create(learner=learner_david, date_enrolled=date(2020, 8, 5),
                                             course=course_cloud_app, mode='honor')
     david_cloud.save()
-    david_cloud = Enrollment.objects.create(learner=learner_john, date_enrolled=date(2020, 8, 5),
+    john_cloud = Enrollment.objects.create(learner=learner_john, date_enrolled=date(2020, 8, 5),
                                            course=course_cloud_app, mode='audit')
-    david_cloud.save()
+    john_cloud.save()
     robert_python = Enrollment.objects.create(learner=learner_robert, date_enrolled=date(2020, 9, 2),
                                               course=course_python, mode='honor')
     robert_python.save()
@@ -141,14 +135,16 @@ def populate_course_enrollment_relationships():
 
 # -------- DELETE ALL DATA -------
 def clean_data():
-    # deletes all data to start from fresh
+    # Delete relationships/children first
     Enrollment.objects.all().delete()
-    User.objects.all().delete()
-    Learner.objects.all().delete()
-    Instructor.objects.all().delete()
-    Course.objects.all().delete()
     Lesson.objects.all().delete()
 
+    # Delete the main objects
+    Course.objects.all().delete()
+
+    # Deleting User automatically deletes Learner and Instructor 
+    # because of the inheritance (One-to-One link)
+    User.objects.all().delete()
 # --------------------------------
 
 
@@ -164,3 +160,9 @@ write_learners()
 populate_course_instructor_relationships()
 populate_course_enrollment_relationships()
 
+
+"""
+checking database within PostgreSQL linux
+psql -U lab_3_user -d lab_3_db
+SELECT * FROM related_objects_user;
+"""
