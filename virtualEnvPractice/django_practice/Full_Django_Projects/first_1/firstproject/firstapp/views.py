@@ -1,5 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from datetime import date
+
+# views:
+# 1. index
+# 2. get_date
 
 def index(request):
     # create simple html page as a string
@@ -8,5 +13,14 @@ def index(request):
                 "</html>"
 
     return HttpResponse(content=template)
+
+def get_date(request):
+    today = date.today()
+    template = "<html>" \
+                f"Today's date is {today}" \
+                "</html>"
+
+    return HttpResponse(content=template)
+
 
 
