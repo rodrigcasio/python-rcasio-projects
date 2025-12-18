@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+def index(request):
+    # create simple html page as a string
+    template = "<html>" \
+                "This is your first view" \
+                "</html>"
+
+    return HttpResponse(content=template)
+
+
