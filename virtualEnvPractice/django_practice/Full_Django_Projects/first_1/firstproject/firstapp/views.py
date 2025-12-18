@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import date
 
-# views:
-# 1. index
-# 2. get_date
+# views functions / paths:
+# 1. index - (/..)
+# 2. get_date - (/date)
 
 def index(request):
     # create simple html page as a string
